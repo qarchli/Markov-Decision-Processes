@@ -1,3 +1,6 @@
+import random
+
+
 class MDP:
     def __init__(self, transitions={}, rewards={}, gamma=0.9):
         self.states = transitions.keys()
@@ -36,10 +39,16 @@ class MDPSolver:
         self.mdp = mdp
         if self.method == 'vi':
             return self.value_iteration()
+        elif self.method == 'pi':
+            return self.policy_iteration()
+        else:
+            raise Exception('method must be in [\'vi\', \'pi\']')
 
     def value_iteration(self, epsilon=0.001, max_iter=1000):
         """
-        Solves the given mdp by returning the optimal Value Function and its corresponding optimal policy
+        Solves the given mdp using value iteration 
+        Returns:
+            the optimal Value Function and its corresponding optimal policy
         """
         # extract mdp attributes
         states = self.mdp.states
@@ -90,10 +99,74 @@ class MDPSolver:
 
                     return opt_policy
 
-                return V_new, optimal_policy(V_new)
+                return V_new, optimal_policy(V_new), iterations
 
             # update the old value function
             V = V_new.copy()
+
+            # increment the iterations
+            iterations += 1
+
+    def policy_iteration(self):
+        """
+        Solves the given mdp using policy iteration 
+        Returns:
+            the optimal Value Function and its corresponding optimal policy
+        """
+        # extract mdp attributes
+        states = self.mdp.states
+        transitions = self.mdp.transitions
+        rewards = self.mdp.rewards
+        gamma = self.mdp.gamma
+        A = self.mdp.A  # action function
+        R = self.mdp.R  # reward function
+        T = self.mdp.T  # transition function
+
+        # initialize the policy randomly
+        Pi_init = {
+            state: random.choice(list(transitions[state].keys()))
+            for state in states
+        }
+        Pi = Pi_init.copy()
+
+        # initialize the value function to zeros
+        V = {state: 0 for state in states}
+        # number of iterations to update the value function
+        k = 10
+        # iterations before convergence
+        iterations = 0
+
+        while True:
+            # update the value function
+            for _ in range(k):
+                # start from the old value function
+                V_new = V.copy()
+
+                for state in states:
+                    # bellman's update for a given state
+                    V_new[state] = max([
+                        R(state) + gamma * sum([
+                            p * V[state_p]
+                            for (p, state_p) in T(state, action)
+                        ]) for action in [Pi[state]]
+                    ])
+                # update the old value function
+                V = V_new.copy()
+
+            # improve the policy
+            Pi_new = Pi.copy()
+            for state in states:
+                Pi_new[state] = max(
+                    A(state),
+                    key=lambda action: R(state) + gamma * sum(
+                        [p * V[state_p] for (p, state_p) in T(state, action)]))
+
+            # convergnce test
+            if Pi_new == Pi:
+                return Pi_init, V, Pi_new, iterations
+
+            # update the old policy
+            Pi = Pi_new.copy()
 
             # increment the iterations
             iterations += 1

@@ -14,10 +14,21 @@ def main():
     mdp = MDP(transitions, rewards)
 
     # initialize the solver
-    solver = MDPSolver()
+    solver = MDPSolver(method='pi')
 
     # solve the mdp
-    V_star, Pi_star = solver.solve(mdp)
+    print('Solving method:', {
+        'vi': 'Value Iteration',
+        'pi': 'Policy Iteration'
+    }[solver.method])
+    if solver.method == 'pi':
+        Pi_init, V_star, Pi_star, iterations = solver.solve(mdp)
+        print('\nIntial policy is \nState - Action')
+        for s in Pi_init:
+            print(s, ' - ', Pi_init[s])
+        print()
+    else:
+        V_star, Pi_star, iterations = solver.solve(mdp)
 
     print('State - Value')
     for s in V_star:
@@ -26,6 +37,8 @@ def main():
     print('\nOptimal policy is \nState - Action')
     for s in Pi_star:
         print(s, ' - ', Pi_star[s])
+
+    print('\nConverged in {} iterations.'.format(iterations))
 
 
 if __name__ == '__main__':
