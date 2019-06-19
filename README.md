@@ -10,7 +10,7 @@ The agent is only allowed actions of moving in up, down, left, right directions 
 
 The cost of being in each state is shown in the figure below:
 
-<img src="./gridworld.svg">
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./gridworld.svg">
 
 
 ## Usage
