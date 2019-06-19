@@ -52,8 +52,6 @@ class MDPSolver:
         """
         # extract mdp attributes
         states = self.mdp.states
-        transitions = self.mdp.transitions
-        rewards = self.mdp.rewards
         gamma = self.mdp.gamma
         A = self.mdp.A  # action function
         R = self.mdp.R  # reward function
@@ -76,6 +74,9 @@ class MDPSolver:
                     sum([p * V[state_p] for (p, state_p) in T(state, action)])
                     for action in A(state)
                 ])
+
+                # round the value function to 2 digits
+                V_new[state] = round(V_new[state], 2)
 
                 # difference between the old and new value
                 delta = max(delta, abs(V_new[state] - V[state]))
@@ -109,14 +110,13 @@ class MDPSolver:
 
     def policy_iteration(self):
         """
-        Solves the given mdp using policy iteration 
+        Solves the given mdp using policy iteration
         Returns:
             the optimal Value Function and its corresponding optimal policy
         """
         # extract mdp attributes
         states = self.mdp.states
         transitions = self.mdp.transitions
-        rewards = self.mdp.rewards
         gamma = self.mdp.gamma
         A = self.mdp.A  # action function
         R = self.mdp.R  # reward function
@@ -150,6 +150,9 @@ class MDPSolver:
                             for (p, state_p) in T(state, action)
                         ]) for action in [Pi[state]]
                     ])
+                    # round the value function to 2 digits
+                    V_new[state] = round(V_new[state], 2)
+
                 # update the old value function
                 V = V_new.copy()
 

@@ -14,7 +14,7 @@ def main():
     mdp = MDP(transitions, rewards)
 
     # initialize the solver
-    solver = MDPSolver(method='pi')
+    solver = MDPSolver(method='vi')
 
     # solve the mdp
     print('Solving method:', {
