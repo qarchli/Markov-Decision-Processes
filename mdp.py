@@ -59,13 +59,15 @@ class MDPSolver:
 
         # initialize the value function to zeros
         V = {state: 0 for state in states}
-        delta = 0  # for convergence testing
         iterations = 0
 
         # loop until convergence
         while True:
             # start from the old value function
             V_new = V.copy()
+
+            # for convergence testing
+            delta = 0
 
             for state in states:
                 # bellman's update for a given state

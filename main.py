@@ -13,32 +13,34 @@ def main():
     # initialize the mdp
     mdp = MDP(transitions, rewards)
 
-    # initialize the solver
-    solver = MDPSolver(method='vi')
+    for method in ['vi', 'pi']:
+        # initialize the solver
+        solver = MDPSolver(method=method)
 
-    # solve the mdp
-    print('Solving method:', {
-        'vi': 'Value Iteration',
-        'pi': 'Policy Iteration'
-    }[solver.method])
-    if solver.method == 'pi':
-        Pi_init, V_star, Pi_star, iterations = solver.solve(mdp)
-        print('\nIntial policy is \nState - Action')
-        for s in Pi_init:
-            print(s, ' - ', Pi_init[s])
-        print()
-    else:
-        V_star, Pi_star, iterations = solver.solve(mdp)
+        # solve the mdp
+        print('Solving method:', {
+            'vi': 'Value Iteration',
+            'pi': 'Policy Iteration'
+        }[solver.method])
+        if solver.method == 'pi':
+            Pi_init, V_star, Pi_star, iterations = solver.solve(mdp)
+            print('\nIntial policy is \nState - Action')
+            for s in Pi_init:
+                print(s, ' - ', Pi_init[s])
+            print()
+        else:
+            V_star, Pi_star, iterations = solver.solve(mdp)
 
-    print('State - Value')
-    for s in V_star:
-        print(s, ' - ', V_star[s])
+        print('State - Value')
+        for s in V_star:
+            print(s, ' - ', V_star[s])
 
-    print('\nOptimal policy is \nState - Action')
-    for s in Pi_star:
-        print(s, ' - ', Pi_star[s])
+        print('\nOptimal policy is \nState - Action')
+        for s in Pi_star:
+            print(s, ' - ', Pi_star[s])
 
-    print('\nConverged in {} iterations.'.format(iterations))
+        print('\nConverged in {} iterations.\n'.format(iterations))
+        print('------------------')
 
 
 if __name__ == '__main__':
