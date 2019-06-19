@@ -4,7 +4,7 @@ This project implements some algorithms, such as **Value Iteration** and **Polic
 
 ## Problem description
 
-The problem we are trying to solve is a simple 2D grid world problem in which the agent starts off at the grid square (initial state) (3 0) and tries to move to other grid squares located elsewhere with the aim of reaching a terminal state (3 1) or (3 2) while maximizing its gains.
+The problem we are trying to solve is a simple 2D grid world problem in which the agent starts off at the grid square (initial state) <i>(3 0)</i> and tries to move to other grid squares located elsewhere with the aim of reaching a terminal state <i>(3 1)</i> or <i>(3 2)</i> while maximizing its gains.
 
 The agent is only allowed actions of moving in <i>up</i>, <i>down</i>, <i>left</i>, <i>right</i> directions by 1 grid square, with probabilities expressed in [transitions.csv](https://github.com/qarchli/Markov-Decision-Processes/blob/master/data/transitions.csv).
 
