@@ -22,7 +22,7 @@ class MDP:
 
     def T(self, state, action):
         """
-        return list of pairs (proba, state) corresponding to where we're 
+        return list of pairs (proba, state) corresponding to where we're
         going to end up if we take a given action in a given state
         """
         return self.transitions[state][action]
@@ -46,7 +46,7 @@ class MDPSolver:
 
     def value_iteration(self, epsilon=0.001, max_iter=1000):
         """
-        Solves the given mdp using value iteration 
+        Solves the given mdp using value iteration
         Returns:
             the optimal Value Function and its corresponding optimal policy
         """
@@ -84,7 +84,10 @@ class MDPSolver:
                 delta = max(delta, abs(V_new[state] - V[state]))
 
             # convergence test
-            # if true, returns the optimal value function as well as its corresponding optimal policy
+            # if true, returns:
+            # - the optimal value function
+            # - its corresponding optimal policy
+            # - number of iterations til convergence
             if delta < epsilon or iterations >= max_iter:
 
                 def optimal_policy(V):
@@ -166,7 +169,11 @@ class MDPSolver:
                     key=lambda action: R(state) + gamma * sum(
                         [p * V[state_p] for (p, state_p) in T(state, action)]))
 
-            # convergnce test
+            # convergence test
+            # if true, returns:
+            # - the initial policy
+            # - the optimal policy
+            # - number of iterations til convergence
             if Pi_new == Pi:
                 return Pi_init, V, Pi_new, iterations
 
