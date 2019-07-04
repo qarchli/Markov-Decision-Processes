@@ -1,10 +1,11 @@
 import csv
 
+
 def read_data(transition_file, rewards_file):
     transitions = {}
     rewards = {}
-    
-    #read transitions from file and store it to a variable
+
+    # read transitions from file and store it to a variable
     with open(transition_file, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
@@ -14,15 +15,14 @@ def read_data(transition_file, rewards_file):
                 else:
                     transitions[row[0]][row[1]] = [(float(row[3]), row[2])]
             else:
-                transitions[row[0]] = {row[1]:[(float(row[3]),row[2])]}
-    
-    #read rewards file and save it to a variable
+                transitions[row[0]] = {row[1]: [(float(row[3]), row[2])]}
+
+    # read rewards file and save it to a variable
     with open(rewards_file, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
             rewards[row[0]] = float(row[1]) if row[1] != 'None' else None
-            
-            
+
     return transitions, rewards
 
 
