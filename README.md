@@ -17,7 +17,7 @@ The cost of being in each state is shown in the figure below:
 
 ## Usage
 
-`python main.py` or via the [notebook](https://github.com/qarchli/Markov-Decision-Processes/blob/master/Solving%20an%20mdp%20.ipynb)
+`python main.py` or via the [notebook](https://github.com/qarchli/Markov-Decision-Processes/blob/master/Solving%20an%20mdp.ipynb)
 
 ## Data
 
